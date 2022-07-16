@@ -3,4 +3,6 @@
     <string name="textview">TextView</string>
     <string name="X">X</string>
     <string name="O">O</string>
+    <string name="stats">Tap play to start</string>
+
 </resources>

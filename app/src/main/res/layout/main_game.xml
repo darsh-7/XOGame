@@ -120,7 +120,7 @@
                 android:layout_weight="2"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="Tap play to start"
+                android:text="@string/stats"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
