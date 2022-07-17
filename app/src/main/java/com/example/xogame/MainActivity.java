@@ -6,8 +6,8 @@ import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,39 +27,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //backMusic = MediaPlayer.create(this, R.raw.background);
-        playbackground();
+        playMusic();
     }
 
-
+    //control the music
     public void stopPlayMusic(View buttom) {
         if (backMusic.isPlaying()) {
             backMusic.stop();
         } else {
-            backMusic = MediaPlayer.create(this, R.raw.background);
-            backMusic.setVolume(1.0f, 1.0f);
-            backMusic.setLooping(true);
-            backMusic.start();
+            playMusic();
         }
     }
 
-    public void playbackground() {
-        backMusic = MediaPlayer.create(this, R.raw.background);
-
+    public void playMusic() {
+        //first song
+        backMusic = MediaPlayer.create(this, R.raw.background2);
         backMusic.setVolume(1.0f, 1.0f);
         backMusic.setLooping(true);
         backMusic.start();
-    }
         /*
+        backMusic = MediaPlayer.create(this, R.raw.background);
+        backMusic.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                backMusic.start();
+            }
+        });
 
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mp.isLooping();
-                }
-            });
 
-             */
+         */
+    }
 
 
     //Determine round by the counter value
