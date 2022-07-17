@@ -2,7 +2,11 @@ package com.example.xogame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,23 +14,91 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean freeze = false, gameActive = false;
     private int counter = 0;
-
+    MediaPlayer backMusic;
     char boxes[] = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8'};
     final int[][] winPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
             {0, 4, 8}, {2, 4, 6}};
 
+
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //backMusic = MediaPlayer.create(this, R.raw.background);
+        playbackground();
     }
+
+
+    public void stopPlayMusic(View buttom) {
+        if (backMusic.isPlaying()) {
+            backMusic.stop();
+        } else {
+            backMusic = MediaPlayer.create(this, R.raw.background);
+            backMusic.setVolume(1.0f, 1.0f);
+            backMusic.setLooping(true);
+            backMusic.start();
+        }
+    }
+
+    public void playbackground() {
+        backMusic = MediaPlayer.create(this, R.raw.background);
+
+        backMusic.setVolume(1.0f, 1.0f);
+        backMusic.setLooping(true);
+        backMusic.start();
+    }
+        /*
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mp.isLooping();
+                }
+            });
+
+             */
+
+
     //Determine round by the counter value
     public char getTurn() {
         return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? 'X' : 'O';
     }
+
+    //sound method
+    public void playSound(String sound) throws InterruptedException {
+        MediaPlayer music;
+        if (sound == "box")
+            music = MediaPlayer.create(this, R.raw.selectclick);
+        else if (sound == "click")
+            music = MediaPlayer.create(this, R.raw.clicktone);
+        else if (sound == "win")
+            music = MediaPlayer.create(this, R.raw.win);
+        else if (sound == "draw")
+            music = MediaPlayer.create(this, R.raw.draw);
+        else {
+            music = MediaPlayer.create(this, R.raw.clickerror);
+            ((TextView) findViewById(R.id.status)).setText("error with click sound");
+            Thread.sleep(2000);
+        }
+        music.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                music.start();
+            }
+        });
+        music.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                music.release();
+            }
+        });
+    }
+
     //reset the game values
-    public boolean resetGame() {
+    public void resetGame() {
         ((TextView) findViewById(R.id.play)).setText("Play");
         ((TextView) findViewById(R.id.status)).setText("Tap play to start");
         ((TextView) findViewById(R.id.box0)).setText("");
@@ -41,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         counter = 0;
         gameActive = freeze = false;
         boxes = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8'};
-        return true;
     }
 
     //Determine if any player win or not
@@ -52,11 +123,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;                 //return false for no winner until now
     }
+
     //active the game to start play
-    public void activeGame(View buttom) {
+    public void activeGame(View buttom) throws InterruptedException {
         TextView status = (TextView) findViewById(R.id.status);
         TextView play = (TextView) findViewById(R.id.play);
-
+        playSound("click");
         if (!gameActive) {
             gameActive = true;
             freeze = false;
@@ -91,12 +163,16 @@ public class MainActivity extends AppCompatActivity {
             return 8;
         return -1;
     }
-    public void darkMode(View v){}//dark mode option
+
+    public void darkMode(View v) {
+    }//dark mode option
 
     //take action when a box clicked
-    public void boxTaped(View box) {
+    public void boxTaped(View box) throws InterruptedException {
         if (!gameActive || freeze) //do nothing when the game not active or in frozen mode
             return;
+
+        playSound("box");
         TextView status = (TextView) findViewById(R.id.status);
         TextView m = (TextView) findViewById(box.getId());
         int boxNum = finedBox(box);//store box number value
@@ -104,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
                 return;
             m.setText("X");
+
             boxes[finedBox(box)] = 'X';//change box value
         } else {
             if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
@@ -114,12 +191,15 @@ public class MainActivity extends AppCompatActivity {
         if (counter >= 4 && win_or_loss()) {
             status.setText(getTurn() + " win");
             freeze = true;
-            if (counter >= 9)
-                status.setText("Draw");
-
+            playSound("win");
+            return;
+        } else if (++counter >= 9) {
+            status.setText("Draw");
+            freeze = true;
+            playSound("draw");
             return;
         }
-        counter++;
+
         status.setText("it is (" + getTurn() + ") turn");
 
     }

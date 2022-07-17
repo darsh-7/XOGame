@@ -61,6 +61,23 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_margin="8dp"
+                android:onClick="stopPlayMusic"
+
+                android:background="@color/white"
+                android:backgroundTint="#0052C34A"
+                android:layout_gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold"
+                app:srcCompat="@android:drawable/ic_lock_silent_mode_off" />
+
+            <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
