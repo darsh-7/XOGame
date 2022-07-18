@@ -1,18 +1,26 @@
 package com.example.xogame;
 
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
+import android.widget.Switch;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-    private boolean freeze = false, gameActive = false;
+    Player player1,player2;
+    private boolean freeze = false, gameActive = false,playMusic =true;
     private int counter = 0;
     MediaPlayer backMusic;
     char boxes[] = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8'};
@@ -27,71 +35,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         playMusic();
-    }
-
-    //control the music
-    public void stopPlayMusic(View buttom) {
-        if (backMusic.isPlaying()) {
-            backMusic.stop();
-        } else {
-            playMusic();
-        }
-    }
-
-    public void playMusic() {
-        //first song
-        backMusic = MediaPlayer.create(this, R.raw.background2);
-        backMusic.setVolume(1.0f, 1.0f);
-        backMusic.setLooping(true);
-        backMusic.start();
-        /*
-        backMusic = MediaPlayer.create(this, R.raw.background);
-        backMusic.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+       // This callback will only be called when MyFragment is at least Started.
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                backMusic.start();
+            public void handleOnBackPressed() {
+                backMusic.stop();
+                MainActivity.this.finish();
             }
-        });
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
+        // The callback can be enabled or disabled here or in handleOnBackPressed()
 
 
-         */
     }
-
-
-    //Determine round by the counter value
+   //Determine round by the counter value
     public char getTurn() {
         return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? 'X' : 'O';
-    }
-
-    //sound method
-    public void playSound(String sound) throws InterruptedException {
-        MediaPlayer music;
-        if (sound == "box")
-            music = MediaPlayer.create(this, R.raw.selectclick);
-        else if (sound == "click")
-            music = MediaPlayer.create(this, R.raw.clicktone);
-        else if (sound == "win")
-            music = MediaPlayer.create(this, R.raw.win);
-        else if (sound == "draw")
-            music = MediaPlayer.create(this, R.raw.draw);
-        else {
-            music = MediaPlayer.create(this, R.raw.clickerror);
-            ((TextView) findViewById(R.id.status)).setText("error with click sound");
-            Thread.sleep(2000);
-        }
-        music.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                music.start();
-            }
-        });
-        music.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                music.release();
-            }
-        });
     }
 
     //reset the game values
@@ -161,9 +123,6 @@ public class MainActivity extends AppCompatActivity {
         return -1;
     }
 
-    public void darkMode(View v) {
-    }//dark mode option
-
     //take action when a box clicked
     public void boxTaped(View box) throws InterruptedException {
         if (!gameActive || freeze) //do nothing when the game not active or in frozen mode
@@ -200,5 +159,78 @@ public class MainActivity extends AppCompatActivity {
         status.setText("it is (" + getTurn() + ") turn");
 
     }
+    //sound method
+    public void playSound(String sound) throws InterruptedException {
+        MediaPlayer music;
+        if (sound == "box")
+            music = MediaPlayer.create(this, R.raw.selectclick);
+        else if (sound == "click")
+            music = MediaPlayer.create(this, R.raw.clicktone);
+        else if (sound == "win")
+            music = MediaPlayer.create(this, R.raw.win);
+        else if (sound == "draw")
+            music = MediaPlayer.create(this, R.raw.draw);
+        else {
+            music = MediaPlayer.create(this, R.raw.clickerror);
+            ((TextView) findViewById(R.id.status)).setText("error with click sound");
+            Thread.sleep(2000);
+        }
+        music.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                music.start();
+            }
+        });
+        music.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                music.release();
+            }
+        });
+    }
+    //control the music
+    public void stopPlayMusic(View button) {
+        if (backMusic.isPlaying()) {
+            playMusic =false;
+            backMusic.stop();
+            button.setBackgroundResource(android.R.drawable.ic_lock_silent_mode);
+        } else {
+            playMusic =true;
+            playMusic();
+            button.setBackgroundResource(android.R.drawable.ic_lock_silent_mode_off);
+        }
+    }
+
+    public void playMusic() {
+        //first song
+        if (!playMusic)
+            return;
+        backMusic = MediaPlayer.create(this, R.raw.background2);
+        backMusic.setVolume(1.0f, 1.0f);
+        backMusic.setLooping(true);
+        backMusic.start();
+        /*
+        backMusic = MediaPlayer.create(this, R.raw.background);
+        backMusic.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                backMusic.start();
+            }
+        });
+
+
+         */
+    }
+
+    //dark mode option
+    public void darkMode(View v) {
+        if (((Switch) findViewById(R.id.dark_mode)).isChecked()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        backMusic.stop();
+    }
+
 
 }
