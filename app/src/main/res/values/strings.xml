@@ -17,4 +17,11 @@
     <string name="title_activity_setting">SettingActivity</string>
     <string name="advanced">advanced</string>
 
-</resources>
+        <string-array name="color_array">
+            <item>black</item>
+            <item>blue</item>
+            <item>red</item>
+            <item>yellow</item>
+        </string-array>
+
+    </resources>

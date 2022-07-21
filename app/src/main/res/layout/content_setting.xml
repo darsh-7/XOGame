@@ -235,27 +235,31 @@
                     android:textStyle="bold"
                     tools:ignore="SpeakableTextPresentCheck" />
 
-                <EditText
+                <Spinner
+                    android:id="@+id/color1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:hint="Name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
 
-                <EditText
+                <Spinner
+                    android:id="@+id/color2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:hint="Name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
 
             </LinearLayout>
 
@@ -362,7 +366,46 @@
             </LinearLayout>
 
         </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/background_color">
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="0dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Dark Mode:"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <ToggleButton
+                    android:id="@+id/darkmode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ToggleButton" />
+
+
+            </LinearLayout>
+
+        </TableRow>
         <!--bottom -->
 
     </TableLayout>

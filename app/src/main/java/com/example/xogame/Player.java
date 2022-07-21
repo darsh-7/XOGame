@@ -1,18 +1,17 @@
 package com.example.xogame;
 
 import android.graphics.Color;
+import android.graphics.ComposePathEffect;
 
 public class Player {
     private String name;
-    //private char symbol;
-    //private int color;
-    //private byte priority;
+    private char symbol;
+    private int color;
 
     Player() {
         name = "";
-        //symbol = '.';
-        //color = Color.BLACK;
-        //priority = 0;
+        symbol = '.';
+        color = Color.BLACK;
     }
     void setPlayer(String name,char symbol,int color,byte priority) {
         this.name = name;
@@ -30,24 +29,19 @@ public class Player {
         return name;
     }
 
-/*
-    public void setPriority(byte priority) {
-        this.priority = priority;
-    }
 
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
 
-    public byte getPriority() {
-        return priority;
-    }
-
-    public char getSymbol() {
-        return symbol;
-    }
-    public void setColor(int color) {
-        this.color = color;
+    public void setColor(String color) {
+        switch (color){
+            case "black":
+                this.color = Color.BLACK;break;
+            case "blue":
+                this.color = Color.BLUE;break;
+            case "red":
+                this.color = Color.RED;break;
+            case "yellow":
+                this.color = Color.YELLOW;break;
+        }
     }
 
     public int getColor() {
@@ -55,6 +49,16 @@ public class Player {
     }
 
 
- */
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
+    }
+
+
+    public char getSymbol() {
+        return symbol;
+    }
+
+
+
 
 }

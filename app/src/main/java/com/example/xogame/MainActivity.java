@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         playMusic();
         /////////
-        //applySettings();
+        applySettings();
         intentIn=getIntent();
         name1 =findViewById(R.id.status);
         nameee= intentIn.getStringExtra("name");
@@ -52,22 +52,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public  void applySettings(){
+        intentIn=getIntent();
 
-        player1.setName(intentIn.getStringExtra("player1_name")) ;
-        player2.setName(intentIn.getStringExtra("player2_name")) ;
-/*
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            //String value = extras.getString("key");
-            //The key argument here must match that used in the other activity
-            player1.setName(extras.getString("player1_name")) ;
-            player2.setName(extras.getString("player1_name")) ;
+        player1.setName(intentIn.getStringExtra("name1"));
+        player2.setName(intentIn.getStringExtra("name2"));
 
-        }
- */
-            // player1.setName(intentIn.getStringExtra(SettingActivity.player2Name)) ;
-
-
+        player1.setColor(intentIn.getStringExtra("color1"));
+        player2.setColor(intentIn.getStringExtra("color2"));
 
     }
     public void setting(View v){
@@ -86,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
    //Determine round by the counter value
-    public char getTurn() {
-        return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? 'X' : 'O';
+    public String getTurn() {
+        return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? player1.getName() : player2.getName();
     }
 
     //reset the game values
@@ -126,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             gameActive = true;
             freeze = false;
             play.setText("Clear");
-            status.setText("it is (" + nameee + ") turn");
+            status.setText("it is (" + getTurn() + ") turn");
         } else {
             //reset the game
             resetGame();
@@ -168,12 +159,12 @@ public class MainActivity extends AppCompatActivity {
 
         playSound("box");
         int boxNum = finedBox(box);//store box number value
-        if (getTurn() == 'X') {
+        if (getTurn() == player1.getName()) {
             if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
                 return;
             m.setText("X");
             //m.setTextColor(R.color.purple_200);
-            m.setTextColor(Color.BLUE);
+            m.setTextColor(player1.getColor());
 
             boxes[finedBox(box)] = 'X';//change box value
         } else {
@@ -181,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             m.setText("O");
             boxes[finedBox(box)] = 'O';
+            m.setTextColor(player2.getColor());
         }
         if (counter >= 4 && win_or_loss()) {
             status.setText(getTurn() + " win");
@@ -194,7 +186,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         play.setText("Clear");
-        status.setText("it is (" + nameee + ") turn");
+        status.setText("it is (" + getTurn() + ") turn");
+
 
     }
     //sound method
