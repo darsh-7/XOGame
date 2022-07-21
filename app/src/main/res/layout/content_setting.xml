@@ -1,12 +1,10 @@
-<?xml version="1.1" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@color/background_color"
-    tools:context=".MainActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -66,58 +64,22 @@
                 android:layout_margin="8dp"
                 android:layout_weight="0"
                 android:backgroundTint="#0052C34A"
-                android:text="settings"
                 android:onClick="setting"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
+                android:text="settings"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_color"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="0"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="Stats:"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="@color/text_color"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="2"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/stats"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="#304FFE"
-                android:textStyle="bold" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <TableLayout
         android:id="@+id/linearLayout2"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_margin="15dp"
-        android:layout_marginBottom="1dp"
-        android:background="@color/black"
+        android:background="@color/background_color"
         android:gravity="center"
         android:orientation="horizontal"
         android:stretchColumns="0,1,2"
@@ -126,72 +88,61 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp">
 
-
         <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@color/black">
+            android:background="@color/background_color">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="0dp">
 
 
                 <TextView
-                    android:id="@+id/box0"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
                     android:onClick="boxTaped"
-                    android:text=""
+                    android:text="          "
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
-                    android:id="@+id/box1"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
                     android:onClick="boxTaped"
-                    android:text=""
+                    android:text="Player1"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
-                    android:id="@+id/box2"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
                     android:onClick="boxTaped"
-                    android:text=""
+                    android:text="Player2"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="SpeakableTextPresentCheck" />
-
 
             </LinearLayout>
 
@@ -202,66 +153,54 @@
             android:layout_height="0dp"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="#000000">
+            android:background="@color/background_color">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black"
+                android:background="@color/background_color"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="0dp">
 
 
                 <TextView
-                    android:id="@+id/box3"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
-                    android:onClick="boxTaped"
-                    android:text=""
+                    android:text="Name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="SpeakableTextPresentCheck" />
 
-                <TextView
-                    android:id="@+id/box4"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                <EditText
+                    android:id="@+id/Name1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
-                    android:onClick="boxTaped"
-                    android:text=""
+                    android:hint="Name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
-                    android:textStyle="bold"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/box5"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                <EditText
+                    android:id="@+id/Name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
+                    android:hint="Name"
                     android:onClick="boxTaped"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
-                    android:textStyle="bold"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -272,68 +211,155 @@
             android:layout_height="0dp"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="#000000">
+            android:background="@color/background_color">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black"
+                android:background="@color/background_color"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="0dp">
 
+
                 <TextView
-                    android:id="@+id/box6"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
-                    android:onClick="boxTaped"
-                    android:text=""
+                    android:text="Color"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="SpeakableTextPresentCheck" />
 
-                <TextView
-                    android:id="@+id/box7"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
-                    android:onClick="boxTaped"
-                    android:text=""
+                    android:hint="Name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
-                    android:textStyle="bold"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/box8"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/box"
                     android:gravity="center"
-                    android:onClick="boxTaped"
-                    android:text=""
+                    android:hint="Name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="60sp"
-                    android:textStyle="bold"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/background_color">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="0dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Symbol"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="Name"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="Name"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/background_color">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="0dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Music"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <ToggleButton
+                    android:id="@+id/toggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ToggleButton" />
+
+                <ToggleButton
+                    android:id="@+id/toggleButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ToggleButton" />
+
+            </LinearLayout>
 
         </TableRow>
 
@@ -341,7 +367,7 @@
 
     </TableLayout>
 
-    <TableLayout
+    <LinearLayout
         android:id="@+id/bottomNavigationView"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
@@ -353,26 +379,51 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color"
+        android:nestedScrollingEnabled="false"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:stretchColumns="0,1,2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="saveSettings"
+            android:padding="10dp"
+            android:text="Save" />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/background_color"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            android:layout_weight="1"
+
+            android:stretchColumns="0,1,2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
 
             <Button
-                android:id="@+id/play"
-                android:layout_width="30dp"
+                android:id="@+id/cancel"
+                android:layout_width="90dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:layout_margin="21dp"
+                android:layout_gravity="center_horizontal"
                 android:padding="10dp"
-                android:onClick="activeGame"
-                android:text="Play" />
+                android:text="Cancel" />
 
 
-
-        </TableRow>
-    </TableLayout>
-
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

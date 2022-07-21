@@ -2,24 +2,31 @@ package com.example.xogame;
 
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    Player player1,player2;
+
+    Player player1=new Player();
+    Player player2=new Player();
+
+    Intent intentIn;
+    TextView name1;
+    String nameee;
     private boolean freeze = false, gameActive = false,playMusic =true;
     private int counter = 0;
     MediaPlayer backMusic;
@@ -28,29 +35,56 @@ public class MainActivity extends AppCompatActivity {
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
             {0, 4, 8}, {2, 4, 6}};
 
-
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         playMusic();
-       // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-            @Override
-            public void handleOnBackPressed() {
-                backMusic.stop();
-                MainActivity.this.finish();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
-
-        // The callback can be enabled or disabled here or in handleOnBackPressed()
+        /////////
+        //applySettings();
+        intentIn=getIntent();
+        name1 =findViewById(R.id.status);
+        nameee= intentIn.getStringExtra("name");
 
 
     }
+
+    public  void applySettings(){
+
+        player1.setName(intentIn.getStringExtra("player1_name")) ;
+        player2.setName(intentIn.getStringExtra("player2_name")) ;
+/*
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            //String value = extras.getString("key");
+            //The key argument here must match that used in the other activity
+            player1.setName(extras.getString("player1_name")) ;
+            player2.setName(extras.getString("player1_name")) ;
+
+        }
+ */
+            // player1.setName(intentIn.getStringExtra(SettingActivity.player2Name)) ;
+
+
+
+    }
+    public void setting(View v){
+        Intent outIntent = new Intent(MainActivity.this,SettingActivity.class);
+        startActivity(outIntent);
+    }
+
+    @Override
+    public  void onPause() {
+        super.onPause();
+        backMusic.pause();
+    }
+    public  void onResume() {
+        super.onResume();
+            backMusic.start();
+    }
+
    //Determine round by the counter value
     public char getTurn() {
         return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? 'X' : 'O';
@@ -92,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             gameActive = true;
             freeze = false;
             play.setText("Clear");
-            status.setText("it is (" + getTurn() + ") turn");
+            status.setText("it is (" + nameee + ") turn");
         } else {
             //reset the game
             resetGame();
@@ -125,17 +159,21 @@ public class MainActivity extends AppCompatActivity {
 
     //take action when a box clicked
     public void boxTaped(View box) throws InterruptedException {
-        if (!gameActive || freeze) //do nothing when the game not active or in frozen mode
+        TextView status = (TextView) findViewById(R.id.status);
+        TextView play = (TextView) findViewById(R.id.play);
+        TextView m = (TextView) findViewById(box.getId());
+        gameActive = true;
+        if (freeze) //do nothing when the game not active or in frozen mode
             return;
 
         playSound("box");
-        TextView status = (TextView) findViewById(R.id.status);
-        TextView m = (TextView) findViewById(box.getId());
         int boxNum = finedBox(box);//store box number value
         if (getTurn() == 'X') {
             if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
                 return;
             m.setText("X");
+            //m.setTextColor(R.color.purple_200);
+            m.setTextColor(Color.BLUE);
 
             boxes[finedBox(box)] = 'X';//change box value
         } else {
@@ -155,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
             playSound("draw");
             return;
         }
-
-        status.setText("it is (" + getTurn() + ") turn");
+        play.setText("Clear");
+        status.setText("it is (" + nameee + ") turn");
 
     }
     //sound method
@@ -193,11 +231,9 @@ public class MainActivity extends AppCompatActivity {
         if (backMusic.isPlaying()) {
             playMusic =false;
             backMusic.stop();
-            button.setBackgroundResource(android.R.drawable.ic_lock_silent_mode);
         } else {
             playMusic =true;
             playMusic();
-            button.setBackgroundResource(android.R.drawable.ic_lock_silent_mode_off);
         }
     }
 

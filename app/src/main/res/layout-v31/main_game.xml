@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/background_color"
+    android:background="@android:color/system_accent1_400"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -26,6 +26,18 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="settings:"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/text_color"
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/sound"
                 android:layout_width="wrap_content"
@@ -42,7 +54,7 @@
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textStyle="bold"
                 app:srcCompat="@android:drawable/ic_lock_silent_mode_off"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <Switch
                 android:id="@+id/dark_mode"
@@ -58,20 +70,21 @@
                 android:text="Dark mode"
                 android:textAppearance="?android:textAppearanceLarge" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:layout_weight="0"
                 android:backgroundTint="#0052C34A"
-                android:text="settings"
-                android:onClick="setting"
+                android:onClick="stopPlayMusic"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:srcCompat="@android:drawable/ic_menu_manage"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </LinearLayout>
 

@@ -1,20 +1,36 @@
 package com.example.xogame;
 
+import android.graphics.Color;
+
 public class Player {
     private String name;
-    private char symbol;
-    private String color;
-    private byte priority;
+    //private char symbol;
+    //private int color;
+    //private byte priority;
 
-
-    public void setColor(String color) {
-        this.color = color;
+    Player() {
+        name = "";
+        //symbol = '.';
+        //color = Color.BLACK;
+        //priority = 0;
     }
+    void setPlayer(String name,char symbol,int color,byte priority) {
+        this.name = name;
+        //this.symbol = symbol;
+        //this.color = color;
+        //this.priority = priority;
+    }
+
+
 
     public void setName(String name) {
         this.name = name;
     }
+    public String getName() {
+        return name;
+    }
 
+/*
     public void setPriority(byte priority) {
         this.priority = priority;
     }
@@ -22,6 +38,7 @@ public class Player {
     public void setSymbol(char symbol) {
         this.symbol = symbol;
     }
+
     public byte getPriority() {
         return priority;
     }
@@ -29,13 +46,15 @@ public class Player {
     public char getSymbol() {
         return symbol;
     }
+    public void setColor(int color) {
+        this.color = color;
+    }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public String getName() {
-        return name;
-    }
+
+ */
 
 }
