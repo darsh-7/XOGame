@@ -3,14 +3,17 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#8BC34A</color>
     <color name="purple_700">#FF3700B3</color>
+    <color name="red">#FF3636</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="button_background_color">#515151</color>
-    <color name="box">#52C34A</color>
-    <color name="background_color">#BEFF00</color>
+    <color name="box">#6200EE</color>
+    <color name="background_color">#FFFFFF</color>
     <color name="text_color">#FF0073</color>
+    <color name="togButton">#FF2222</color>
+
 
 
 

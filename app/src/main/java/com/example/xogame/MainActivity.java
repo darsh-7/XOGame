@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public  void applySettings(){
+        playSound("click");
         intentIn=getIntent();
 
         player1.setName(intentIn.getStringExtra("name1"));
@@ -59,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         player1.setColor(intentIn.getStringExtra("color1"));
         player2.setColor(intentIn.getStringExtra("color2"));
+
+        player1.setSymbol(intentIn.getStringExtra("symbol1"));
+        player2.setSymbol(intentIn.getStringExtra("symbol2"));
 
     }
     public void setting(View v){
@@ -73,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public  void onResume() {
         super.onResume();
-            backMusic.start();
+        backMusic.start();
     }
 
-   //Determine round by the counter value
+    //Determine round by the counter value
     public String getTurn() {
         return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? player1.getName() : player2.getName();
     }
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         if (getTurn() == player1.getName()) {
             if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
                 return;
-            m.setText("X");
+            m.setText(player1.getSymbol());
             //m.setTextColor(R.color.purple_200);
             m.setTextColor(player1.getColor());
 
@@ -170,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
                 return;
-            m.setText("O");
+            m.setText(player2.getSymbol());
             boxes[finedBox(box)] = 'O';
             m.setTextColor(player2.getColor());
         }
@@ -191,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     //sound method
-    public void playSound(String sound) throws InterruptedException {
+    public void playSound(String sound) {
         MediaPlayer music;
         if (sound == "box")
             music = MediaPlayer.create(this, R.raw.selectclick);
@@ -203,8 +207,10 @@ public class MainActivity extends AppCompatActivity {
             music = MediaPlayer.create(this, R.raw.draw);
         else {
             music = MediaPlayer.create(this, R.raw.clickerror);
+            /*
             ((TextView) findViewById(R.id.status)).setText("error with click sound");
             Thread.sleep(2000);
+             */
         }
         music.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override

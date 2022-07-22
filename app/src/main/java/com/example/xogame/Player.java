@@ -5,12 +5,12 @@ import android.graphics.ComposePathEffect;
 
 public class Player {
     private String name;
-    private char symbol;
+    private String symbol;
     private int color;
 
     Player() {
         name = "";
-        symbol = '.';
+        symbol = ".";
         color = Color.BLACK;
     }
     void setPlayer(String name,char symbol,int color,byte priority) {
@@ -49,12 +49,12 @@ public class Player {
     }
 
 
-    public void setSymbol(char symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
 
-    public char getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 

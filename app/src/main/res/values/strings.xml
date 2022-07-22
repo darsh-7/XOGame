@@ -24,4 +24,12 @@
             <item>yellow</item>
         </string-array>
 
-    </resources>
+    <string-array name="symbol_array">
+        <item>X</item>
+        <item>O</item>
+        <item>-</item>
+        <item>+</item>
+    </string-array>
+
+
+</resources>
