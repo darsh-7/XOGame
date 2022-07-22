@@ -24,12 +24,16 @@
             <item>yellow</item>
         </string-array>
 
-    <string-array name="symbol_array">
-        <item>X</item>
-        <item>O</item>
-        <item>-</item>
-        <item>+</item>
+    <string-array name="bot_array">
+        <item>Disabled</item>
+        <item>Player1</item>
+        <item>player2</item>
     </string-array>
 
+    <string-array name="difficulty_array">
+        <item>Easy</item>
+        <item>Normal</item>
+        <item>Hard</item>
+    </string-array>
 
 </resources>

@@ -14,6 +14,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -21,13 +23,11 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    Player player1=new Player();
-    Player player2=new Player();
+    Player player1 = new Player();
+    Player player2 = new Player();
 
     Intent intentIn;
-    TextView name1;
-    String nameee;
-    private boolean freeze = false, gameActive = false,playMusic =true;
+    private boolean freeze = false, gameActive = false, playMusic = true, clickSound = true, darkMode = false;
     private int counter = 0;
     MediaPlayer backMusic;
     char boxes[] = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8'};
@@ -41,19 +41,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         playMusic();
         /////////
         applySettings();
-        intentIn=getIntent();
-        name1 =findViewById(R.id.status);
-        nameee= intentIn.getStringExtra("name");
-
 
     }
 
-    public  void applySettings(){
+    public void applySettings() {
         playSound("click");
-        intentIn=getIntent();
+        intentIn = getIntent();
+        Bundle bundleIn = intentIn.getExtras();
+
 
         player1.setName(intentIn.getStringExtra("name1"));
         player2.setName(intentIn.getStringExtra("name2"));
@@ -64,18 +63,28 @@ public class MainActivity extends AppCompatActivity {
         player1.setSymbol(intentIn.getStringExtra("symbol1"));
         player2.setSymbol(intentIn.getStringExtra("symbol2"));
 
+
+
+
+        darkMode = bundleIn.getBoolean("darkMode");
+        clickSound = bundleIn.getBoolean("clickSound");
+        playMusic = bundleIn.getBoolean("playMusic");
+
+
     }
-    public void setting(View v){
-        Intent outIntent = new Intent(MainActivity.this,SettingActivity.class);
+
+    public void setting(View v) {
+        Intent outIntent = new Intent(MainActivity.this, SettingActivity.class);
         startActivity(outIntent);
     }
 
     @Override
-    public  void onPause() {
+    public void onPause() {
         super.onPause();
         backMusic.pause();
     }
-    public  void onResume() {
+
+    public void onResume() {
         super.onResume();
         backMusic.start();
     }
@@ -194,8 +203,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     //sound method
     public void playSound(String sound) {
+        if (!clickSound)
+            return;
         MediaPlayer music;
         if (sound == "box")
             music = MediaPlayer.create(this, R.raw.selectclick);
@@ -225,19 +237,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     //control the music
-    public void stopPlayMusic(View button) {
-        if (backMusic.isPlaying()) {
-            playMusic =false;
-            backMusic.stop();
-        } else {
-            playMusic =true;
-            playMusic();
-        }
-    }
 
     public void playMusic() {
-        //first song
+
         if (!playMusic)
             return;
         backMusic = MediaPlayer.create(this, R.raw.background2);
@@ -261,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
     public void darkMode(View v) {
         if (((Switch) findViewById(R.id.dark_mode)).isChecked()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else {
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         backMusic.stop();
