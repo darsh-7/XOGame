@@ -17,14 +17,14 @@
     <string name="title_activity_setting">SettingActivity</string>
     <string name="advanced">advanced</string>
 
-    <string name="mode">Day</string>
+    <string name="mode">Night</string>
 
-        <string-array name="color_array">
-            <item>black</item>
-            <item>blue</item>
-            <item>red</item>
-            <item>yellow</item>
-        </string-array>
+    <string-array name="color_array">
+        <item>black</item>
+        <item>blue</item>
+        <item>red</item>
+        <item>yellow</item>
+    </string-array>
 
     <string-array name="bot_array">
         <item>Disabled</item>

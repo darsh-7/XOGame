@@ -471,6 +471,23 @@
                 app:layout_constraintStart_toStartOf="parent">
 
 
+
+                <Switch
+                    android:id="@+id/darkMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:onClick="darkMode"
+                    android:text="Dark Mode"
+                    android:layout_margin="5dp"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -478,20 +495,11 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Dark Mode"
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="SpeakableTextPresentCheck" />
-
-                <ToggleButton
-                    android:id="@+id/darkMode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="darkMode"
-                    android:text="ToggleButton" />
-
             </LinearLayout>
         </TableRow>
         <!--bottom -->

@@ -21,19 +21,23 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     Player player1 = new Player();
     Player player2 = new Player();
-
     Intent intentIn;
     private boolean freeze = false, gameActive = false, playMusic = true, clickSound = true, darkMode = false;
     private int counter = 0;
     MediaPlayer backMusic;
-    char boxes[] = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8'};
+    static char boxes[] = new char[]{'X', 'O', 'G', 'A', 'M', 'E', '9', '8', '7'};
     final int[][] winPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
             {0, 4, 8}, {2, 4, 6}};
+
+    BotSystem bot = new BotSystem();
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -42,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_game);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        playMusic();
         /////////
+        //backMusic = MediaPlayer.create(this, R.raw.background2);
         applySettings();
-
+        playMusic();
     }
 
     public void applySettings() {
@@ -64,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
         player2.setSymbol(intentIn.getStringExtra("symbol2"));
 
 
-
+        int botStats = intentIn.getIntExtra("botStats", 0);
+        int difficulty = intentIn.getIntExtra("difficulty", 0);
+        bot.setBot(difficulty, botStats);
 
         darkMode = bundleIn.getBoolean("darkMode");
         clickSound = bundleIn.getBoolean("clickSound");
@@ -81,17 +87,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        backMusic.pause();
+        if (playMusic)
+            backMusic.pause();
     }
 
     public void onResume() {
         super.onResume();
-        backMusic.start();
+        if (playMusic)
+            backMusic.start();
     }
 
     //Determine round by the counter value
-    public String getTurn() {
-        return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? player1.getName() : player2.getName();
+    public int getTurn() {
+        return (counter == 0 | counter == 2 | counter == 4 | counter == 6 | counter == 8) ? 1 : 2;
     }
 
     //reset the game values
@@ -109,7 +117,11 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.box8)).setText("");
         counter = 0;
         gameActive = freeze = false;
-        boxes = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8'};
+        boxes = new char[]{'X', 'O', 'G', 'A', 'M', 'E', '9', '8', '7'};
+        int botStats = intentIn.getIntExtra("botStats", 0);
+        int difficulty = intentIn.getIntExtra("difficulty", 0);
+        bot.setBot(difficulty, botStats);
+
     }
 
     //Determine if any player win or not
@@ -130,15 +142,31 @@ public class MainActivity extends AppCompatActivity {
             gameActive = true;
             freeze = false;
             play.setText("Clear");
-            status.setText("it is (" + getTurn() + ") turn");
+
+            if (bot.getPlayer() == 1) {
+                Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
+
+                if (bot.getDifLevel() == 0) {
+                    selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+                    playSound("mSelect");
+                } else if (bot.getDifLevel() == 1) {
+                    selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+                } else if (bot.getDifLevel() == 2) {
+                    selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+                }
+            }
+
+            String playerName = ((getTurn() == 1) ? player1.getName() : player2.getName());
+            status.setText("it is (" + playerName + ") turn");
         } else {
             //reset the game
             resetGame();
         }
+
     }
 
     // fined a box using his id
-    public int finedBox(View box) {
+    public byte finedBox(View box) {
 
         if (box.getId() == ((TextView) findViewById(R.id.box0)).getId())
             return 0;
@@ -159,32 +187,60 @@ public class MainActivity extends AppCompatActivity {
         else if (box.getId() == ((TextView) findViewById(R.id.box8)).getId())
             return 8;
         return -1;
+
     }
 
+    public TextView getBox(int boxNum) {
+
+        switch (boxNum) {
+            case 0:
+                return (TextView) findViewById(R.id.box0);
+            case 1:
+                return (TextView) findViewById(R.id.box1);
+            case 2:
+                return (TextView) findViewById(R.id.box2);
+            case 3:
+                return (TextView) findViewById(R.id.box3);
+            case 4:
+                return (TextView) findViewById(R.id.box4);
+            case 5:
+                return (TextView) findViewById(R.id.box5);
+            case 6:
+                return (TextView) findViewById(R.id.box6);
+            case 7:
+                return (TextView) findViewById(R.id.box7);
+            case 8:
+                return (TextView) findViewById(R.id.box8);
+            default:
+                return (TextView) findViewById(R.id.status);
+        }
+    }
+
+
     //take action when a box clicked
-    public void boxTaped(View box) throws InterruptedException {
-        TextView status = (TextView) findViewById(R.id.status);
-        TextView play = (TextView) findViewById(R.id.play);
-        TextView m = (TextView) findViewById(box.getId());
-        gameActive = true;
-        if (freeze) //do nothing when the game not active or in frozen mode
+    public void bboxTaped(View bbox) throws InterruptedException {
+        if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
             return;
 
         playSound("box");
-        int boxNum = finedBox(box);//store box number value
-        if (getTurn() == player1.getName()) {
-            if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
+        TextView status = (TextView) findViewById(R.id.status);
+        TextView play = (TextView) findViewById(R.id.play);
+        TextView m = (TextView) findViewById(bbox.getId());
+
+        int boxNum = finedBox(bbox);//store box number value
+        if (getTurn() == 1) {
+            if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if any value in this boxes
                 return;
             m.setText(player1.getSymbol());
             //m.setTextColor(R.color.purple_200);
             m.setTextColor(player1.getColor());
 
-            boxes[finedBox(box)] = 'X';//change box value
+            boxes[finedBox(bbox)] = 'X';//change box value
         } else {
-            if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if is any value in this boxes
+            if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if any value in this boxes
                 return;
             m.setText(player2.getSymbol());
-            boxes[finedBox(box)] = 'O';
+            boxes[finedBox(bbox)] = 'O';
             m.setTextColor(player2.getColor());
         }
         if (counter >= 4 && win_or_loss()) {
@@ -204,6 +260,82 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public void boxTaped(View box) {
+        if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
+            return;
+
+        if (boxes[finedBox(box)] == '1' || boxes[finedBox(box)] == '2')//check if is any value in this boxes
+            return;
+
+        //TextView status = (TextView) findViewById(R.id.status);
+        TextView play = (TextView) findViewById(R.id.play);
+
+        boolean turn = getTurn() == 1;
+
+        if (turn) {
+            selectBox(finedBox(box), player1.getSymbol(), player1.getColor());
+        } else {
+            selectBox(finedBox(box), player2.getSymbol(), player2.getColor());
+        }
+        playSound("box");
+
+
+        if (bot.getPlayer() != 0) {
+            Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
+
+            if (bot.getDifLevel() == 0) {
+                selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+                playSound("mSelect");
+            } else if (bot.getDifLevel() == 1) {
+                selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+            } else if (bot.getDifLevel() == 2) {
+                selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+            }
+        }
+
+
+        play.setText("Clear");
+    }
+
+
+    public void selectBox(int boxNum, String symbol, int color) {
+
+        if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
+            return;
+
+        TextView status = (TextView) findViewById(R.id.status);
+        TextView play = (TextView) findViewById(R.id.play);
+        String playerName = ((getTurn() == 1) ? player1.getName() : player2.getName());
+
+        TextView m = getBox(boxNum);
+
+
+        m.setText(symbol);
+        //m.setTextColor(R.color.purple_200);
+        m.setTextColor(color);
+
+        char playerNumberChar = (getTurn() == 1) ? '1' : '2';
+        boxes[boxNum] = playerNumberChar;//change box value
+
+
+        if (counter >= 4 && win_or_loss()) {
+            status.setText(playerName + " win");
+            freeze = true;
+            playSound("win");
+            return;
+        } else if (++counter >= 9) {
+            status.setText("Draw");
+            freeze = true;
+            playSound("draw");
+            return;
+        }
+        //play.setText("Clear");
+        status.setText("it is (" + playerName + ") turn");
+
+    }
+
+
     //sound method
     public void playSound(String sound) {
         if (!clickSound)
@@ -217,6 +349,8 @@ public class MainActivity extends AppCompatActivity {
             music = MediaPlayer.create(this, R.raw.win);
         else if (sound == "draw")
             music = MediaPlayer.create(this, R.raw.draw);
+        else if (sound == "mSelect")
+            music = MediaPlayer.create(this, R.raw.modernselect);
         else {
             music = MediaPlayer.create(this, R.raw.clickerror);
             /*
@@ -242,8 +376,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void playMusic() {
 
-        if (!playMusic)
+        if (!playMusic) {
             return;
+        }
         backMusic = MediaPlayer.create(this, R.raw.background2);
         backMusic.setVolume(1.0f, 1.0f);
         backMusic.setLooping(true);

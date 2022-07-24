@@ -1,8 +1,10 @@
 package com.example.xogame;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -65,6 +67,16 @@ public class SettingActivity extends AppCompatActivity {
             myToggle.setTextColor(Color.RED);
         }
 
+
+        Switch mySwitch = (Switch) findViewById(R.id.darkMode);
+
+        if (isNightMode(this))
+            mySwitch.setChecked(true);
+        else
+            mySwitch.setChecked(false);
+
+
+        /*
         myToggle = ((ToggleButton) findViewById(R.id.darkMode));
         if (darkmode) {
             myToggle.setChecked(true);
@@ -74,7 +86,17 @@ public class SettingActivity extends AppCompatActivity {
             myToggle.setChecked(false);
             myToggle.setTextColor(Color.RED);
         }
+
+         */
     }
+
+
+    public boolean isNightMode(Context context) {
+        int nightModeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+
     public void selectBot() {
 
         // Create an ArrayAdapter using the string array and a default spinner
@@ -99,7 +121,7 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-        public void selectColor() {
+    public void selectColor() {
 
         // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
@@ -127,6 +149,11 @@ public class SettingActivity extends AppCompatActivity {
         Spinner dynamicSpinner;
         dynamicSpinner = (Spinner) findViewById(R.id.symbol1);
         dynamicSpinner.setAdapter(adapter);
+
+        items = new String[]{"O", "X", "/", "|", "\\", "-", "+"};
+
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, items);
         dynamicSpinner = (Spinner) findViewById(R.id.symbol2);
         dynamicSpinner.setAdapter(adapter);
 
@@ -144,12 +171,18 @@ public class SettingActivity extends AppCompatActivity {
         //name player 1
         tempEditText = (EditText) findViewById(R.id.Name1);
         p1Name = tempEditText.getText().toString();
-        outIntent.putExtra("name1", p1Name);
+        if (p1Name.isEmpty() || p1Name.trim().isEmpty())
+            outIntent.putExtra("name1", "Player 1");
+        else
+            outIntent.putExtra("name1", p1Name);
 
         //name player 2
         tempEditText = (EditText) findViewById(R.id.Name2);
         p2Name = tempEditText.getText().toString();
-        outIntent.putExtra("name2", p2Name);
+        if (p2Name.isEmpty() || p2Name.trim().isEmpty())
+            outIntent.putExtra("name2", "Player 2");
+        else
+            outIntent.putExtra("name2", p2Name);
 
         //color 1
         Spinner mySpinner = (Spinner) findViewById(R.id.color1);
@@ -173,11 +206,35 @@ public class SettingActivity extends AppCompatActivity {
 
         //bot system
 
+        mySpinner = (Spinner) findViewById(R.id.bot);
+        String botStats = mySpinner.getSelectedItem().toString();
 
+        switch (botStats) {
+            case "Player1":
+                outIntent.putExtra("botStats", 1);
+                break;
 
+            case "player2":
+                outIntent.putExtra("botStats", 2);
+                break;
 
+            default:
+                outIntent.putExtra("botStats", 0);
+        }
+        mySpinner = (Spinner) findViewById(R.id.difficulty);
+        botStats = mySpinner.getSelectedItem().toString();
+        switch (botStats) {
+            case "Normal":
+                outIntent.putExtra("difficulty", 1);
 
+                break;
+            case "Hard":
+                outIntent.putExtra("difficulty", 2);
 
+                break;
+            default:
+                outIntent.putExtra("difficulty", 0);
+        }
 
         //some data
 
@@ -238,21 +295,20 @@ public class SettingActivity extends AppCompatActivity {
     }
 
 
-    public void toggleClickSound(View toggle){
+    public void toggleClickSound(View toggle) {
 
         ToggleButton myToggle = (ToggleButton) toggle;
 
-        if (clickSound){
+        if (clickSound) {
             myToggle.setChecked(false);
             myToggle.setTextColor(Color.RED);
             clickSound = false;
-        }else {
+        } else {
             myToggle.setChecked(true);
             myToggle.setTextColor(Color.GREEN);
             clickSound = true;
         }
     }
-
 
 
     public void playMusic() {
@@ -278,6 +334,15 @@ public class SettingActivity extends AppCompatActivity {
 
     public void darkMode(View v) {
 
+        if (((Switch) findViewById(R.id.darkMode)).isChecked()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        //backMusic.stop();
+    }
+
+/*
         ToggleButton myToggle = ((ToggleButton) findViewById(R.id.darkMode));
 
         if (myToggle.getText()=="OFF") {
@@ -292,7 +357,9 @@ public class SettingActivity extends AppCompatActivity {
         }
         myToggle.toggle();
 
+
+
         backMusic.stop();
     }
-
+*/
 }
