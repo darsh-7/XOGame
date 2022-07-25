@@ -45,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        /////////
-        //backMusic = MediaPlayer.create(this, R.raw.background2);
+
+
+        ///////
         applySettings();
         playMusic();
     }
+
 
     public void applySettings() {
         playSound("click");
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //goto setting activity
     public void setting(View v) {
         Intent outIntent = new Intent(MainActivity.this, SettingActivity.class);
         startActivity(outIntent);
@@ -148,10 +150,21 @@ public class MainActivity extends AppCompatActivity {
                 Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
 
                 if (bot.getDifLevel() == 0) {
-                    selectBox(BotSystem.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
-                    playSound("bSelect");
+                    int int_random = BotSystem.easyLevel(boxes);
+                    Log.d("return", "rondom to select" + int_random + "  ");
+                    selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
+                } else if (bot.getDifLevel() == 1) {
+                    int int_random = BotSystem.normalMode(boxes);
+                    Log.d("return", "normal to select" + int_random + "  ");
+                    selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
+
+                } else if (bot.getDifLevel() == 2) {
+                    int int_random = BotSystem.hardMode(boxes);
+                    Log.d("return", "hard to select" + int_random + "  ");
+                    selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
                 }
             }
+
 
             String playerName = ((getTurn() == 1) ? player1.getName() : player2.getName());
             status.setText("it is (" + playerName + ") turn");
@@ -213,52 +226,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-/*
-    //take action when a box clicked
-    public void bboxTaped(View bbox) throws InterruptedException {
-        if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
-            return;
-
-        playSound("box");
-        TextView status = (TextView) findViewById(R.id.status);
-        TextView play = (TextView) findViewById(R.id.play);
-        TextView m = (TextView) findViewById(bbox.getId());
-
-        int boxNum = finedBox(bbox);//store box number value
-        if (getTurn() == 1) {
-            if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if any value in this boxes
-                return;
-            m.setText(player1.getSymbol());
-            //m.setTextColor(R.color.purple_200);
-            m.setTextColor(player1.getColor());
-
-            boxes[finedBox(bbox)] = 'X';//change box value
-        } else {
-            if (boxes[boxNum] == 'X' || boxes[boxNum] == 'O')//check if any value in this boxes
-                return;
-            m.setText(player2.getSymbol());
-            boxes[finedBox(bbox)] = 'O';
-            m.setTextColor(player2.getColor());
-        }
-        if (counter >= 4 && win_or_loss()) {
-            status.setText(getTurn() + " win");
-            freeze = true;
-            playSound("win");
-            return;
-        } else if (++counter >= 9) {
-            status.setText("Draw");
-            freeze = true;
-            playSound("draw");
-            return;
-        }
-        play.setText("Clear");
-        status.setText("it is (" + getTurn() + ") turn");
-
-
-    }
-
-
- */
 
     public void boxTaped(View box) {
         if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
@@ -280,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
         if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
             return;
 
-        playSound("box");
         Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
         if (!(bot.getPlayer() == 0)) {
 
@@ -288,12 +254,21 @@ public class MainActivity extends AppCompatActivity {
                 int int_random = BotSystem.easyLevel(boxes);
                 Log.d("return", "rondom to select" + int_random + "  ");
                 selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
-                playSound("bSelect");
+            } else if (bot.getDifLevel() == 1) {
+                int int_random = BotSystem.normalMode(boxes);
+                Log.d("return", "normal to select" + int_random + "  ");
+                selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
+
+            } else if (bot.getDifLevel() == 2) {
+                int int_random = BotSystem.hardMode(boxes);
+                Log.d("return", "hard to select" + int_random + "  ");
+                selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
             }
+
         }
 
 
-        play.setText("Clear");
+        //play.setText("Clear");
     }
 
 
@@ -315,10 +290,27 @@ public class MainActivity extends AppCompatActivity {
         boxes[boxNum] = playerNumberChar;//change box value
 
 
+        if (bot.getPlayer() == 0)
+            playSound("box");
+        else if (getTurn() == bot.getPlayer())
+            playSound("bSelect");
+        else if (getTurn() == bot.getPlayer())
+            playSound("bSelect");
+        else
+            playSound("box");
+
+
         if (counter >= 4 && win_or_loss()) {
             status.setText(playerName + " win");
             freeze = true;
-            playSound("win");
+            if (bot.getPlayer() == 0)
+                playSound("win");
+            else if (getTurn() == 2 && bot.getPlayer() == 2)
+                playSound("lose");
+            else if (getTurn() == 1 && bot.getPlayer() == 1)
+                playSound("lose");
+            else
+                playSound("win");
             Log.d("return", playerName + "win");
             return;
         } else if (++counter >= 9) {
@@ -348,10 +340,10 @@ public class MainActivity extends AppCompatActivity {
             music = MediaPlayer.create(this, R.raw.draw);
         else if (sound == "bSelect")
             music = MediaPlayer.create(this, R.raw.botclick);
-        else if (sound == "loss")
-            music = MediaPlayer.create(this, R.raw.botclick);
+        else if (sound == "lose")
+            music = MediaPlayer.create(this, R.raw.lose);
         else {
-            music = MediaPlayer.create(this, R.raw.loss);
+            music = MediaPlayer.create(this, R.raw.clickerror);
             /*
             ((TextView) findViewById(R.id.status)).setText("error with click sound");
             Thread.sleep(2000);
