@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
             {0, 4, 8}, {2, 4, 6}};
 
-    BotSystem bot = new BotSystem();
+    BotSystem bot = new BotSystem(0, 1);
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         int botStats = intentIn.getIntExtra("botStats", 0);
         int difficulty = intentIn.getIntExtra("difficulty", 0);
         bot.setBot(difficulty, botStats);
+
 
         darkMode = bundleIn.getBoolean("darkMode");
         clickSound = bundleIn.getBoolean("clickSound");
@@ -147,12 +148,8 @@ public class MainActivity extends AppCompatActivity {
                 Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
 
                 if (bot.getDifLevel() == 0) {
-                    selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
-                    playSound("mSelect");
-                } else if (bot.getDifLevel() == 1) {
-                    selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
-                } else if (bot.getDifLevel() == 2) {
-                    selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+                    selectBox(BotSystem.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+                    playSound("bSelect");
                 }
             }
 
@@ -216,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+/*
     //take action when a box clicked
     public void bboxTaped(View bbox) throws InterruptedException {
         if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
@@ -261,6 +258,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+ */
+
     public void boxTaped(View box) {
         if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
             return;
@@ -278,19 +277,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             selectBox(finedBox(box), player2.getSymbol(), player2.getColor());
         }
+        if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
+            return;
+
         playSound("box");
-
-
-        if (bot.getPlayer() != 0) {
-            Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
+        Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
+        if (!(bot.getPlayer() == 0)) {
 
             if (bot.getDifLevel() == 0) {
-                selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
-                playSound("mSelect");
-            } else if (bot.getDifLevel() == 1) {
-                selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
-            } else if (bot.getDifLevel() == 2) {
-                selectBox(bot.easyLevel(boxes), playerBot.getSymbol(), playerBot.getColor());
+                int int_random = BotSystem.easyLevel(boxes);
+                Log.d("return", "rondom to select" + int_random + "  ");
+                selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
+                playSound("bSelect");
             }
         }
 
@@ -301,8 +299,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectBox(int boxNum, String symbol, int color) {
 
-        if (freeze || !gameActive) //do nothing when the game not active or in frozen mode
-            return;
 
         TextView status = (TextView) findViewById(R.id.status);
         TextView play = (TextView) findViewById(R.id.play);
@@ -323,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
             status.setText(playerName + " win");
             freeze = true;
             playSound("win");
+            Log.d("return", playerName + "win");
             return;
         } else if (++counter >= 9) {
             status.setText("Draw");
@@ -349,10 +346,12 @@ public class MainActivity extends AppCompatActivity {
             music = MediaPlayer.create(this, R.raw.win);
         else if (sound == "draw")
             music = MediaPlayer.create(this, R.raw.draw);
-        else if (sound == "mSelect")
-            music = MediaPlayer.create(this, R.raw.modernselect);
+        else if (sound == "bSelect")
+            music = MediaPlayer.create(this, R.raw.botclick);
+        else if (sound == "loss")
+            music = MediaPlayer.create(this, R.raw.botclick);
         else {
-            music = MediaPlayer.create(this, R.raw.clickerror);
+            music = MediaPlayer.create(this, R.raw.loss);
             /*
             ((TextView) findViewById(R.id.status)).setText("error with click sound");
             Thread.sleep(2000);
