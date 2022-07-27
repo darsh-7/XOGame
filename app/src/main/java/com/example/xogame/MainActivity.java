@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             play.setText("Clear");
 
             if (bot.getPlayer() == 1) {
-                Player playerBot = (bot.getPlayer() == 1) ? player1 : player2;
+                Player playerBot = player1;
 
                 if (bot.getDifLevel() == 0) {
                     int int_random = BotSystem.easyLevel(boxes);

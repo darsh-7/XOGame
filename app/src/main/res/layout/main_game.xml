@@ -10,7 +10,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3700B3"
+        android:background="@color/topBar"
         android:theme="@style/Theme.XOGame.AppBarOverlay">
 
         <LinearLayout
@@ -32,6 +32,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:gravity="left"
+                android:textColor="@color/topBarText"
                 android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="30sp"

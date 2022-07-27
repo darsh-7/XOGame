@@ -83,7 +83,6 @@ public class BotSystem {
             return hardMode(boxes);
     }
 
-    //Determine if any player win or not
 
     public static int hardMode(char[] boxes) {
         int location;
@@ -108,7 +107,34 @@ public class BotSystem {
                     return location;
                 }
         }
+        //make chance to win
+        for (int poss = 0; poss <= 7; poss++) {
+            int countAction = 0;
+            int boxNum=-1;
+            if ((boxes[winPositions[poss][0]] == '1' || boxes[winPositions[poss][0]] == '2') )
+                countAction += 2;
+            else{
+                countAction++;
+                boxNum = winPositions[poss][0];
+            }
+            if ((boxes[winPositions[poss][1]] == '1' || boxes[winPositions[poss][1]] == '2') )
+                countAction += 2;
+            else{
+                countAction++;
+                boxNum = winPositions[poss][1];
+            }
+            if ((boxes[winPositions[poss][2]] == '1' || boxes[winPositions[poss][2]] == '2') )
+                countAction += 2;
+            else{
+                countAction++;
+                boxNum = winPositions[poss][2];
+            }
 
+            if (countAction == 4) {
+                Log.d("return", "find poss to win = " + boxNum);
+                return boxNum;
+            }
+        }
         Log.d("skip", "go to easyLevel");
         return easyLevel(boxes);
     }

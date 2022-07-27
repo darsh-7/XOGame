@@ -38,10 +38,10 @@
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#6200EE"
+                android:background="@color/topBar"
                 android:gravity="center"
                 android:text="Player Options"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -132,7 +132,8 @@
                     android:layout_height="50dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-
+                    android:background="@color/togButton"
+                    android:hint="Player1"
                     android:padding="10dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -143,7 +144,8 @@
                     android:layout_height="50dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-
+                    android:background="@color/togButton"
+                    android:hint="Player1"
                     android:padding="10dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -267,10 +269,10 @@
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#6200EE"
+                android:background="@color/topBar"
                 android:gravity="center"
                 android:text="Bot System"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -280,8 +282,6 @@
 
 
         </TableRow>
-
-
 
 
         <TableRow
@@ -366,7 +366,6 @@
         </TableRow>
 
 
-
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -375,10 +374,10 @@
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#6200EE"
+                android:background="@color/topBar"
                 android:gravity="center"
                 android:text="Sound System"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -420,8 +419,8 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:focusable="true"
-                    android:onClick="stopPlayMusic"
                     android:focusableInTouchMode="false"
+                    android:onClick="stopPlayMusic"
                     android:padding="10dp"
                     android:textOff="off"
                     android:textOn="on" />
@@ -444,9 +443,9 @@
                     android:id="@+id/click"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:onClick="toggleClickSound"
                     android:layout_column="4"
                     android:layout_weight="1"
+                    android:onClick="toggleClickSound"
                     android:padding="10dp"
 
                     android:text="ToggleButton" />
@@ -471,18 +470,17 @@
                 app:layout_constraintStart_toStartOf="parent">
 
 
-
                 <Switch
                     android:id="@+id/darkMode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    android:onClick="darkMode"
-                    android:text="Dark Mode"
                     android:layout_margin="5dp"
+
+                    android:layout_weight="1"
                     android:gravity="left"
+                    android:onClick="darkMode"
                     android:padding="10dp"
+                    android:text="Dark Mode"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -510,7 +508,6 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:background="#FFFFFF"
         android:nestedScrollingEnabled="false"
         android:orientation="horizontal"
         android:stretchColumns="0,1,2"

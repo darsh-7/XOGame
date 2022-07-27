@@ -9,21 +9,39 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3700B3"
+        android:background="@color/topBar"
         android:theme="@style/Theme.XOGame.AppBarOverlay">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Settings"
-            android:onClick="darkMode"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            tools:ignore="SpeakableTextPresentCheck" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                app:layout_anchor="@+id/appBarLayout"
+                app:layout_anchorGravity="start|center"
+                app:srcCompat="@android:drawable/ic_menu_manage" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Settings"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/topBarText"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -8,13 +8,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="button_background_color">#515151</color>
-    <color name="box">#FF8C00</color>
-    <color name="background_color">#FFFFFF</color>
-    <color name="text_color">#D5D5D5</color>
-    <color name="togButton">#75FFFFFF</color>
+    <color name="button_background_color">#ea80fc</color>
+    <color name="box">#6200EE</color>
+    <color name="background_color">#141414</color>
+    <color name="text_color">#272727</color>
+    <color name="togButton">#77FFFFFF</color>
     <color name="boxBorder">#000000</color>
-    <color name="topBar">#651FFF</color>
-    <color name="topBarText">#FFFFFF</color>
+    <color name="topBar">#121212</color>
+    <color name="topBarText">#bb86fc</color>
+
+
 
 </resources>
