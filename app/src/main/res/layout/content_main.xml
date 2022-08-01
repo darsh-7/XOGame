@@ -45,6 +45,7 @@
                 android:layout_gravity="center_horizontal"
                 android:padding="10dp"
                 android:textStyle="bold"
+                android:onClick="composeEmail"
                 android:layout_margin="8dp"
                 android:layout_weight="0"
                 android:paddingTop="8dp"

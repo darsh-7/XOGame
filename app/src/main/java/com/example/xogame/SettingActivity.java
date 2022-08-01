@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import java.util.Set;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -21,11 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
 public class SettingActivity extends AppCompatActivity {
     MediaPlayer backMusic;
-    boolean playMusic = true, darkmode = false, clickSound = true;
+    boolean playMusic = true, darkmode = false, clickSound = true, settingsActiv = false;
     Intent outIntent;
     String p1Name, p2Name;
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -159,8 +163,7 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    public void saveSettings(View v) throws InterruptedException {
-        Toast.makeText(this, "asd", (int) 50).show();
+    public void cancelSetting(View v) throws InterruptedException {
         outIntent = new Intent(SettingActivity.this, MainActivity.class);
 
         playSound("click");
@@ -242,6 +245,99 @@ public class SettingActivity extends AppCompatActivity {
         outIntent.putExtra("clickSound", clickSound);
         outIntent.putExtra("playMusic", playMusic);
 
+        startActivity(outIntent);
+    }
+
+
+    public void saveSettings(View v) throws InterruptedException {
+        outIntent = new Intent(SettingActivity.this, MainActivity.class);
+
+        playSound("click");
+
+        EditText tempEditText;
+
+        //name player 1
+        tempEditText = (EditText) findViewById(R.id.Name1);
+        p1Name = tempEditText.getText().toString();
+        if (p1Name.isEmpty() || p1Name.trim().isEmpty())
+            outIntent.putExtra("name1", "Player 1");
+        else
+            outIntent.putExtra("name1", p1Name);
+
+        //name player 2
+        tempEditText = (EditText) findViewById(R.id.Name2);
+        p2Name = tempEditText.getText().toString();
+        if (p2Name.isEmpty() || p2Name.trim().isEmpty())
+            outIntent.putExtra("name2", "Player 2");
+        else
+            outIntent.putExtra("name2", p2Name);
+
+        //color 1
+        Spinner mySpinner = (Spinner) findViewById(R.id.color1);
+        String color = mySpinner.getSelectedItem().toString();
+        outIntent.putExtra("color1", color);
+
+        //color 2
+        mySpinner = (Spinner) findViewById(R.id.color2);
+        color = mySpinner.getSelectedItem().toString();
+        outIntent.putExtra("color2", color);
+
+        //symbol 1
+        mySpinner = (Spinner) findViewById(R.id.symbol1);
+        String symbol = mySpinner.getSelectedItem().toString();
+        outIntent.putExtra("symbol1", symbol);
+
+        //symbol 2
+        mySpinner = (Spinner) findViewById(R.id.symbol2);
+        symbol = mySpinner.getSelectedItem().toString();
+        outIntent.putExtra("symbol2", symbol);
+
+        //bot system
+
+        mySpinner = (Spinner) findViewById(R.id.bot);
+        String botStats = mySpinner.getSelectedItem().toString();
+
+        switch (botStats) {
+            case "Player1":
+                outIntent.putExtra("botStats", 1);
+                break;
+
+            case "player2":
+                outIntent.putExtra("botStats", 2);
+                break;
+
+            default:
+                outIntent.putExtra("botStats", 0);
+        }
+        mySpinner = (Spinner) findViewById(R.id.difficulty);
+        botStats = mySpinner.getSelectedItem().toString();
+        switch (botStats) {
+            case "Normal":
+                outIntent.putExtra("difficulty", 1);
+
+                break;
+            case "Hard":
+                outIntent.putExtra("difficulty", 2);
+
+                break;
+            default:
+                outIntent.putExtra("difficulty", 0);
+        }
+
+        //some data
+        outIntent.putExtra("darkMode", darkmode);
+        outIntent.putExtra("clickSound", clickSound);
+        outIntent.putExtra("playMusic", playMusic);
+/*
+        if (settingsActiv==true) {
+        }
+        else  {
+            outIntent.putExtra("darkMode", true);
+            outIntent.putExtra("clickSound", true);
+            outIntent.putExtra("playMusic", true);
+        }
+
+ */
         startActivity(outIntent);
     }
 
@@ -333,7 +429,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void darkMode(View v) {
-
+        Toast.makeText(this, "Note: Dark Mode in beta version", (int) 50).show();
         if (((Switch) findViewById(R.id.darkMode)).isChecked()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

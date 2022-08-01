@@ -13,7 +13,8 @@ public class Player {
         symbol = ".";
         color = Color.BLACK;
     }
-    void setPlayer(String name,char symbol,int color,byte priority) {
+
+    void setPlayer(String name, char symbol, int color, byte priority) {
         this.name = name;
         //this.symbol = symbol;
         //this.color = color;
@@ -21,26 +22,33 @@ public class Player {
     }
 
 
-
     public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
 
 
-
     public void setColor(String color) {
-        switch (color){
+        if (color == null) {
+            this.color = Color.BLACK;
+            return;
+        }
+        switch (color) {
             case "black":
-                this.color = Color.BLACK;break;
+                this.color = Color.BLACK;
+                break;
             case "blue":
-                this.color = Color.BLUE;break;
+                this.color = Color.BLUE;
+                break;
             case "red":
-                this.color = Color.RED;break;
+                this.color = Color.RED;
+                break;
             case "yellow":
-                this.color = Color.YELLOW;break;
+                this.color = Color.YELLOW;
+                break;
         }
     }
 
@@ -57,8 +65,6 @@ public class Player {
     public String getSymbol() {
         return symbol;
     }
-
-
 
 
 }

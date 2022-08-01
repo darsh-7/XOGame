@@ -1,27 +1,20 @@
 package com.example.xogame;
 
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private int counter = 0;
     MediaPlayer backMusic;
     static char boxes[] = new char[]{'X', 'O', 'G', 'A', 'M', 'E', '9', '8', '7'};
-    final int[][] winPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+    final int[][] WIN_POSITIONS = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
             {0, 4, 8}, {2, 4, 6}};
 
@@ -54,8 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void applySettings() {
-        playSound("click");
+        //playSound("click");
         intentIn = getIntent();
+        if (intentIn.resolveActivity(getPackageManager()) == null) {
+            return;
+        }
+
         Bundle bundleIn = intentIn.getExtras();
 
 
@@ -73,18 +70,18 @@ public class MainActivity extends AppCompatActivity {
         int difficulty = intentIn.getIntExtra("difficulty", 0);
         bot.setBot(difficulty, botStats);
 
-
-        darkMode = bundleIn.getBoolean("darkMode");
-        clickSound = bundleIn.getBoolean("clickSound");
-        playMusic = bundleIn.getBoolean("playMusic");
+        darkMode = bundleIn.getBoolean("darkMode",true);
+        clickSound = bundleIn.getBoolean("clickSound",true);
+        playMusic = bundleIn.getBoolean("playMusic",true);
 
 
     }
 
     //goto setting activity
     public void setting(View v) {
-        Intent outIntent = new Intent(MainActivity.this, SettingActivity.class);
-        startActivity(outIntent);
+        super.onBackPressed();
+        //Intent outIntent = new Intent(MainActivity.this, SettingActivity.class);
+        //startActivity(outIntent);
     }
 
     @Override
@@ -130,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     //Determine if any player win or not
     private boolean win_or_loss() {
         for (int poss = 0; poss <= 7; poss++) {
-            if (boxes[winPositions[poss][0]] == boxes[winPositions[poss][1]] && boxes[winPositions[poss][0]] == boxes[winPositions[poss][2]])
+            if (boxes[WIN_POSITIONS[poss][0]] == boxes[WIN_POSITIONS[poss][1]] && boxes[WIN_POSITIONS[poss][0]] == boxes[WIN_POSITIONS[poss][2]])
                 return true;
         }
         return false;                 //return false for no winner until now
@@ -154,12 +151,12 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("return", "rondom to select" + int_random + "  ");
                     selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
                 } else if (bot.getDifLevel() == 1) {
-                    int int_random = BotSystem.normalMode(boxes);
+                    int int_random = BotSystem.normalMode(boxes,1);
                     Log.d("return", "normal to select" + int_random + "  ");
                     selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
 
                 } else if (bot.getDifLevel() == 2) {
-                    int int_random = BotSystem.hardMode(boxes);
+                    int int_random = BotSystem.hardMode(boxes,1);
                     Log.d("return", "hard to select" + int_random + "  ");
                     selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
                 }
@@ -255,12 +252,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("return", "rondom to select" + int_random + "  ");
                 selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
             } else if (bot.getDifLevel() == 1) {
-                int int_random = BotSystem.normalMode(boxes);
+                int int_random = BotSystem.normalMode(boxes,getTurn());
                 Log.d("return", "normal to select" + int_random + "  ");
                 selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
 
             } else if (bot.getDifLevel() == 2) {
-                int int_random = BotSystem.hardMode(boxes);
+                int int_random = BotSystem.hardMode(boxes,getTurn());
                 Log.d("return", "hard to select" + int_random + "  ");
                 selectBox(int_random, playerBot.getSymbol(), playerBot.getColor());
             }
@@ -385,6 +382,20 @@ public class MainActivity extends AppCompatActivity {
 
 
          */
+    }
+
+        //send report to the div
+    public void composeEmail(View report) {
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, "report game "+(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_TEXT, "Problem details:\n" +
+                "\n" +
+                "Suggested solutions (if you have any): "+(R.string.app_name));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     //dark mode option

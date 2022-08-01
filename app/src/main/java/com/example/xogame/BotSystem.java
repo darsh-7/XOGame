@@ -6,12 +6,12 @@ import java.util.Random;
 
 public class BotSystem {
 
-    final static int[][] winPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+    final static int[][] WIN_POSITIONS = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
             {0, 4, 8}, {2, 4, 6}};
 
     int difLevel;
-    int playerr;
+    int players;
     static char board[][] = new char[3][3];
     int row, col;
 
@@ -20,17 +20,17 @@ public class BotSystem {
 
     BotSystem(int difLevel, int player) {
         this.difLevel = difLevel;
-        this.playerr = player;
+        this.players = player;
     }
 
 
     public void setBot(int difLevel, int player) {
         this.difLevel = difLevel;
-        this.playerr = player;
+        this.players = player;
     }
 
     public int getPlayer() {
-        return playerr;
+        return players;
     }
 
     public int getDifLevel() {
@@ -75,61 +75,53 @@ public class BotSystem {
     }
 
 
-    public static int normalMode(char[] boxes) {
+    public static int normalMode(char[] boxes, int turn) {
         Random rand = new Random();
         if (rand.nextInt(8) < 4)
             return easyLevel(boxes);
         else
-            return hardMode(boxes);
+            return hardMode(boxes, turn);
     }
 
 
-    public static int hardMode(char[] boxes) {
+    public static int hardMode(char[] boxes, int turn) {
         int location;
         for (int poss = 0; poss <= 7; poss++) {
-            location = ((boxes[winPositions[poss][0]] == boxes[winPositions[poss][1]]) ? winPositions[poss][2] : -1);
+            location = ((boxes[WIN_POSITIONS[poss][0]] == boxes[WIN_POSITIONS[poss][1]]) ? WIN_POSITIONS[poss][2] : -1);
             if (location != -1)
                 if (!(boxes[location] == '1' || boxes[location] == '2')) {
                     Log.d("return", "1 hard mode val " + location + "  ");
                     return location;
                 }
 
-            location = ((boxes[winPositions[poss][1]] == boxes[winPositions[poss][2]]) ? winPositions[poss][0] : -1);
+            location = ((boxes[WIN_POSITIONS[poss][1]] == boxes[WIN_POSITIONS[poss][2]]) ? WIN_POSITIONS[poss][0] : -1);
             if (location != -1)
                 if (!(boxes[location] == '1' || boxes[location] == '2')) {
-                    Log.d("return", "1 hard mode val " + location + "  ");
+                    Log.d("return", "2 hard mode val " + location + "  ");
                     return location;
                 }
-            location = ((boxes[winPositions[poss][0]] == boxes[winPositions[poss][2]]) ? winPositions[poss][1] : -1);
+            location = ((boxes[WIN_POSITIONS[poss][0]] == boxes[WIN_POSITIONS[poss][2]]) ? WIN_POSITIONS[poss][1] : -1);
             if (location != -1)
                 if (!(boxes[location] == '1' || boxes[location] == '2')) {
-                    Log.d("return", "1 hard mode val " + location + "  ");
+                    Log.d("return", "3 hard mode val " + location + "  ");
                     return location;
                 }
         }
         //make chance to win
         for (int poss = 0; poss <= 7; poss++) {
             int countAction = 0;
-            int boxNum=-1;
-            if ((boxes[winPositions[poss][0]] == '1' || boxes[winPositions[poss][0]] == '2') )
-                countAction += 2;
-            else{
-                countAction++;
-                boxNum = winPositions[poss][0];
-            }
-            if ((boxes[winPositions[poss][1]] == '1' || boxes[winPositions[poss][1]] == '2') )
-                countAction += 2;
-            else{
-                countAction++;
-                boxNum = winPositions[poss][1];
-            }
-            if ((boxes[winPositions[poss][2]] == '1' || boxes[winPositions[poss][2]] == '2') )
-                countAction += 2;
-            else{
-                countAction++;
-                boxNum = winPositions[poss][2];
-            }
+            int boxNum = -1;
+            char playerNumberChar = (turn == 1) ? '1' : '2';
+            for (int count = 0; count <= 2; count++) {
 
+                if ((boxes[WIN_POSITIONS[poss][count]] == playerNumberChar))
+                    countAction += 2;
+                else {
+                    countAction++;
+                    boxNum = WIN_POSITIONS[poss][count];
+                }
+                Log.d("return", "1 value = " + countAction);
+            }
             if (countAction == 4) {
                 Log.d("return", "find poss to win = " + boxNum);
                 return boxNum;
