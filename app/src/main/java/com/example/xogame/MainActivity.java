@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
     //goto setting activity
     public void setting(View v) {
-        super.onBackPressed();
+        resetGame();
+        finish();
         //Intent outIntent = new Intent(MainActivity.this, SettingActivity.class);
         //startActivity(outIntent);
     }
