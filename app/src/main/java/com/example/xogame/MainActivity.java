@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean freeze = false, gameActive = false, playMusic = true, clickSound = true, darkMode = false;
     private int counter = 0;
     MediaPlayer backMusic;
-    static char boxes[] = new char[]{'X', 'O', 'G', 'A', 'M', 'E', '9', '8', '7'};
+    static char boxes[] = new char[]{'0', '3', 'G', 'A', 'M', 'E', '9', '8', '7'};
     final int[][] WIN_POSITIONS = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
             {0, 4, 8}, {2, 4, 6}};
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.box8)).setText("");
         counter = 0;
         gameActive = freeze = false;
-        boxes = new char[]{'X', 'O', 'G', 'A', 'M', 'E', '9', '8', '7'};
+        boxes = new char[]{'0', '3', 'G', 'A', 'M', 'E', '9', '8', '7'};
         int botStats = intentIn.getIntExtra("botStats", 0);
         int difficulty = intentIn.getIntExtra("difficulty", 0);
         bot.setBot(difficulty, botStats);

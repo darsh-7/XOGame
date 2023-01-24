@@ -86,28 +86,29 @@ public class BotSystem {
 
     public static int hardMode(char[] boxes, int turn) {
         int location;
+
         for (int poss = 0; poss <= 7; poss++) {
             location = ((boxes[WIN_POSITIONS[poss][0]] == boxes[WIN_POSITIONS[poss][1]]) ? WIN_POSITIONS[poss][2] : -1);
             if (location != -1)
                 if (!(boxes[location] == '1' || boxes[location] == '2')) {
-                    Log.d("return", "1 hard mode val " + location + "  ");
+                    Log.d("hardMode", "1 hard mode val " + location + "  ");
                     return location;
                 }
 
             location = ((boxes[WIN_POSITIONS[poss][1]] == boxes[WIN_POSITIONS[poss][2]]) ? WIN_POSITIONS[poss][0] : -1);
             if (location != -1)
                 if (!(boxes[location] == '1' || boxes[location] == '2')) {
-                    Log.d("return", "2 hard mode val " + location + "  ");
+                    Log.d("hardMode", "2 hard mode val " + location + "  ");
                     return location;
                 }
             location = ((boxes[WIN_POSITIONS[poss][0]] == boxes[WIN_POSITIONS[poss][2]]) ? WIN_POSITIONS[poss][1] : -1);
             if (location != -1)
                 if (!(boxes[location] == '1' || boxes[location] == '2')) {
-                    Log.d("return", "3 hard mode val " + location + "  ");
+                    Log.d("hardMode", "3 hard mode val " + location + "  ");
                     return location;
                 }
         }
-        //make chance to win
+        //check if is chance to win
         for (int poss = 0; poss <= 7; poss++) {
             int countAction = 0;
             int boxNum = -1;
@@ -117,17 +118,17 @@ public class BotSystem {
                 if ((boxes[WIN_POSITIONS[poss][count]] == playerNumberChar))
                     countAction += 2;
                 else {
-                    countAction++;
+                    countAction--;
                     boxNum = WIN_POSITIONS[poss][count];
                 }
-                Log.d("return", "1 value = " + countAction);
+                Log.d("hardMode", "1 value = " + countAction);
             }
             if (countAction == 4) {
-                Log.d("return", "find poss to win = " + boxNum);
+                Log.d("hardMode", "find poss to win = " + boxNum);
                 return boxNum;
             }
         }
-        Log.d("skip", "go to easyLevel");
-        return easyLevel(boxes);
+        Log.d("hardMode", "skip ,go to easyLevel");
+        return easyLevel(boxes);// no way to win so make random move
     }
 }
