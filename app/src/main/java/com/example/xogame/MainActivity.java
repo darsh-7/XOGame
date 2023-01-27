@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView status = (TextView) findViewById(R.id.status);
         TextView play = (TextView) findViewById(R.id.play);
-        String playerName = ((getTurn() == 1) ? player1.getName() : player2.getName());
+        String playerName = ((getTurn() != 1) ? player1.getName() : player2.getName());
 
         TextView m = getBox(boxNum);
 
@@ -299,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (counter >= 4 && win_or_loss()) {
+            playerName = ((getTurn() == 1) ? player1.getName() : player2.getName());
             status.setText(playerName + " win");
             freeze = true;
             if (bot.getPlayer() == 0)
