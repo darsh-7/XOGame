@@ -1,5 +1,5 @@
 # XOGame
-XO or Tic-Tac-Toe game for android
+XO or Tic-Tac-Toe game for android with music and bot
 
 #### Preview :
 <!--
