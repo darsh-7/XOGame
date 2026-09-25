@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="540" viewBox="0 0 800 540" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-labelledby="t">
+  <title id="t">XOGame architecture: SettingActivity, MainActivity, BotSystem, audio, Player model and board state</title>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#444"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="800" height="540" rx="18" fill="#ffffff"/>
+
+  <text x="400" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1f1f1f">XOGame: how the pieces fit</text>
+
+  <!-- Row 1 -->
+  <rect x="24" y="70" width="200" height="206" rx="12" fill="#f4eefa" stroke="#5b2c83" stroke-width="2"/>
+  <text x="124" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#5b2c83">SettingActivity</text>
+  <text x="124" y="114" text-anchor="middle" font-size="13" fill="#5b2c83">launcher screen</text>
+  <g font-size="13" fill="#1f1f1f">
+    <text x="38" y="142">• player names</text>
+    <text x="38" y="162">• colour: 4 choices</text>
+    <text x="38" y="182">• symbol: X O / | \ - +</text>
+    <text x="38" y="202">• bot seat: off / P1 / P2</text>
+    <text x="38" y="222">• Easy / Normal / Hard</text>
+    <text x="38" y="242">• music, SFX, dark mode</text>
+  </g>
+
+  <rect x="300" y="70" width="200" height="206" rx="12" fill="#f4eefa" stroke="#5b2c83" stroke-width="2"/>
+  <text x="400" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#5b2c83">MainActivity</text>
+  <text x="400" y="114" text-anchor="middle" font-size="13" fill="#5b2c83">game screen</text>
+  <g font-size="13" fill="#1f1f1f">
+    <text x="314" y="142">• 3×3 board of TextViews</text>
+    <text x="314" y="162">• turn counter (0–8)</text>
+    <text x="314" y="182">• win / draw check</text>
+    <text x="314" y="202">• Play ↔ Clear button</text>
+    <text x="314" y="222">• bug report via email</text>
+    <text x="314" y="242">• portrait-locked</text>
+  </g>
+
+  <rect x="576" y="70" width="200" height="206" rx="12" fill="#eaf3fc" stroke="#2f6fb0" stroke-width="2"/>
+  <text x="676" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#2f6fb0">BotSystem</text>
+  <text x="676" y="114" text-anchor="middle" font-size="13" fill="#2f6fb0">static move pickers</text>
+  <g font-size="13" fill="#1f1f1f">
+    <text x="590" y="142" font-weight="700">Easy</text>
+    <text x="590" y="160">random empty cell</text>
+    <text x="590" y="182" font-weight="700">Normal</text>
+    <text x="590" y="200">50% Easy, 50% Hard</text>
+    <text x="590" y="222" font-weight="700">Hard</text>
+    <text x="590" y="240">fill any 2-in-a-row,</text>
+    <text x="590" y="258">else random</text>
+  </g>
+
+  <!-- Row 1 arrows -->
+  <line x1="226" y1="140" x2="296" y2="140" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="262" y="118" text-anchor="middle" font-size="13" fill="#444">Intent</text>
+  <text x="262" y="133" text-anchor="middle" font-size="13" fill="#444">extras</text>
+  <line x1="298" y1="200" x2="228" y2="200" stroke="#444" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="262" y="220" text-anchor="middle" font-size="13" fill="#444">settings</text>
+  <text x="262" y="235" text-anchor="middle" font-size="13" fill="#444">finish()</text>
+
+  <line x1="502" y1="140" x2="572" y2="140" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="538" y="118" text-anchor="middle" font-size="13" fill="#444">board,</text>
+  <text x="538" y="133" text-anchor="middle" font-size="13" fill="#444">turn</text>
+  <line x1="574" y1="200" x2="504" y2="200" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="538" y="220" text-anchor="middle" font-size="13" fill="#444">cell</text>
+  <text x="538" y="235" text-anchor="middle" font-size="13" fill="#444">0–8</text>
+
+  <!-- Row 2 -->
+  <rect x="24" y="356" width="200" height="130" rx="12" fill="#f5f5f5" stroke="#777" stroke-width="2"/>
+  <text x="124" y="382" text-anchor="middle" font-size="16" font-weight="700" fill="#333">MediaPlayer audio</text>
+  <g font-size="13" fill="#1f1f1f">
+    <text x="38" y="410">• looping music track</text>
+    <text x="50" y="428">per screen</text>
+    <text x="38" y="450">• SFX: tap, bot move,</text>
+    <text x="50" y="468">win, lose, draw</text>
+  </g>
+
+  <rect x="300" y="356" width="200" height="130" rx="12" fill="#f5f5f5" stroke="#777" stroke-width="2"/>
+  <text x="400" y="382" text-anchor="middle" font-size="16" font-weight="700" fill="#333">Player × 2</text>
+  <g font-size="13" fill="#1f1f1f">
+    <text x="314" y="410">• name</text>
+    <text x="314" y="430">• symbol</text>
+    <text x="314" y="450">• text colour</text>
+  </g>
+
+  <rect x="576" y="356" width="200" height="130" rx="12" fill="#f5f5f5" stroke="#777" stroke-width="2"/>
+  <text x="676" y="382" text-anchor="middle" font-size="16" font-weight="700" fill="#333">Board state</text>
+  <g font-size="13" fill="#1f1f1f">
+    <text x="590" y="410">• static char[9] boxes</text>
+    <text x="590" y="430">• marks: '1' and '2'</text>
+    <text x="590" y="450">• empty cells hold unique</text>
+    <text x="602" y="468">filler chars (0 3 G A…)</text>
+  </g>
+
+  <!-- Row 2 arrows -->
+  <line x1="124" y1="278" x2="124" y2="352" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="340" y1="278" x2="228" y2="354" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="420" y1="278" x2="420" y2="352" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="470" y1="278" x2="578" y2="354" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="676" y1="278" x2="676" y2="352" stroke="#444" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="684" y="320" font-size="13" fill="#444">reads</text>
+  <text x="428" y="320" font-size="13" fill="#444">uses</text>
+
+  <text x="400" y="520" text-anchor="middle" font-size="13" fill="#555">Dark mode is applied app-wide with AppCompatDelegate.setDefaultNightMode() and a values-night theme.</text>
+</svg>
